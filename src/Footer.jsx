@@ -1,6 +1,6 @@
 import React from "react";
 import {
-   
+
     Mail,
     ArrowUp,
     Heart,
@@ -119,7 +119,7 @@ const Footer = () => {
                             <a
                                 href="https://github.com/mmagi1617"
                                 target="_blank"
-                                rel="noreferrer"
+                                rel="noopener noreferrer"
                                 aria-label="GitHub"
                                 className="
                   glass
@@ -142,10 +142,11 @@ const Footer = () => {
                             </a>
 
                             <a
-                                href="linkedin.com/in/magendiran-m-48b8a0274"
+                                href="https://linkedin.com/in/magendiran-m-48b8a0274"
                                 target="_blank"
-                                rel="noreferrer"
+                                rel="noopener noreferrer"
                                 aria-label="LinkedIn"
+
                                 className="
                   glass
                   flex
@@ -207,6 +208,8 @@ const Footer = () => {
                                 <a
                                     key={item.name}
                                     href={item.href}
+                                    rel="noopener noreferrer"
+                                    target="_blank"
                                     className="
                     group
                     flex
@@ -307,7 +310,7 @@ const Footer = () => {
 
                         {/* Made With */}
 
-                        
+
 
                         {/* Back To Top */}
 
