@@ -1,0 +1,256 @@
+@import "tailwindcss";
+
+@theme {
+  /* ===== Brand ===== */
+  --color-primary: #17aed9;
+  --color-primary-dark: #0d8fb5;
+  --color-primary-light: #4fc8e8;
+
+  --color-secondery: #021115;
+
+  /* ===== Background ===== */
+  --color-background: #05090b;
+  --color-foreground: #f4fbfd;
+
+  --color-surface: #0a1418;
+  --color-surface-light: #102229;
+
+  /* ===== Text ===== */
+  --color-text: #f4fbfd;
+  --color-muted-foreground: #9bb2ba;
+  --color-muted-nav: #d1d1d1;
+
+  /* ===== Borders ===== */
+  --color-border: #19343d;
+
+  /* ===== Effects ===== */
+  --shadow-primary: 0 0 30px rgba(23, 174, 217, 0.18);
+  --glow-primary: 0 0 20px rgba(23, 174, 217, 0.30);
+
+  /* ===== Radius ===== */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+
+  /* ===== Typography ===== */
+  --font-primary: "Inter", sans-serif;
+
+  /* ===== Transitions ===== */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-primary);
+  }
+
+  .font-serif {
+    font-family: "Playfair Display", serif;
+  }
+
+
+}
+
+@layer components {
+  .glass {
+    background: color-mix(in srgb, var(--color-surface) 50%, transparent);
+    backdrop-filter: blur(16px);
+    border: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
+  }
+
+  .glass-img {
+    background: color-mix(in srgb, var(--color-surface) 50%, transparent);
+    backdrop-filter: blur(20px);
+    border: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
+  }
+
+  .glass-strong {
+    background: color-mix(in srgb, var(--color-surface) 80%, transparent);
+    backdrop-filter: blur(24px);
+    border: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent);
+  }
+
+  .glow-text {
+    text-shadow: 0 0 30px color-mix(in srgb, var(--color-primary) 50%, transparent);
+  }
+
+  .glow-border {
+    box-shadow: 0 0 30px color-mix(in srgb, var(--color-primary) 50%, transparent);
+  }
+
+  .box-shadow{
+    transition: all .2s ease-in;
+  }
+  .box-shadow:hover{
+    transform: translateY(-5px);
+    /* box-shadow: 0 0 10px #17aed980; */
+  }
+
+
+}
+
+@layer utilities {
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+      filter: blur(18px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0px);
+
+    }
+  }
+
+  @keyframes slow-drift {
+
+    0%,
+    100% {
+      transform: translate(0, 0);
+    }
+
+    25% {
+      transform: translate(20px, -30px);
+    }
+
+    50% {
+      transform: translate(-15px, -20px);
+    }
+
+    75% {
+      transform: translate(30px, 10px);
+    }
+  }
+
+  @keyframes float {
+
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes marquee {
+
+    0%{
+      transform: translateX(0);
+    }
+
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+
+
+  @keyframes pulse {
+
+    0%,
+    100% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes bounce {
+    0%, 100%{
+      transform: translateY(-5px);
+    }
+    50%{
+      transform: translateY(5px);
+    }
+  }
+
+
+
+  .animate-pulse {
+    animation: pulse .9s ease-in-out infinite;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.8s ease-out both;
+  }
+
+  .animate-float{
+    animation: float 5s ease-in-out infinite;
+  }
+
+  .animate-marquee{
+    animation: marquee 90s linear infinite;
+  }
+
+  .animate-bounce{
+    animation: bounce 2s ease-in-out infinite;
+  }
+
+  .animation-delay-100 {
+    animation-delay: 100ms;
+  }
+
+
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+
+  .animation-delay-300 {
+    animation-delay: 300ms;
+  }
+
+  .animation-delay-400 {
+    animation-delay: 400ms;
+  }
+
+  .animation-delay-500 {
+    animation-delay: 500ms;
+  }
+
+  .animation-delay-600 {
+    animation-delay: 600ms;
+  }
+
+  .animation-delay-700 {
+    animation-delay: 700ms;
+  }
+
+  .animation-delay-800 {
+    animation-delay: 800ms;
+  }
+}
+
+button {
+  cursor: pointer;
+}
+
+.btn-hover-out,
+.btn-hover {
+  transition: all .2s ease-in-out;
+}
+
+.btn-hover-out:hover {
+  border: none;
+  background: var(--color-primary);
+}
+
+.btn-hover:hover {
+  background: var(--color-primary-dark);
+  scale: 1.02;
+  /* border: 2px solid var(--color-surface); */
+}
