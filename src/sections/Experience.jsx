@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+
 import {
   GraduationCap,
   BriefcaseBusiness,
@@ -6,6 +7,13 @@ import {
   MapPin,
   CalendarDays,
 } from "lucide-react";
+
+import ScrollReveal from "../components/ScrollReveal";
+
+
+/* ============================================================
+   TIMELINE DATA
+============================================================ */
 
 const timelineData = [
   {
@@ -18,7 +26,12 @@ const timelineData = [
     location: "Tirupattur, Tamil Nadu",
     description:
       "Completed a Bachelor of Science in Computer Science with a strong foundation in programming, object-oriented programming, databases, and computer science fundamentals.",
-    skills: ["Computer Science", "OOP", "DBMS", "Programming"],
+    skills: [
+      "Computer Science",
+      "OOP",
+      "DBMS",
+      "Programming",
+    ],
     icon: GraduationCap,
   },
 
@@ -61,21 +74,34 @@ const timelineData = [
   },
 ];
 
+
+/* ============================================================
+   EXPERIENCE
+============================================================ */
+
 const Experience = () => {
   const timelineRef = useRef(null);
 
   const [activeItems, setActiveItems] = useState([]);
   const [sparkActive, setSparkActive] = useState(false);
 
+
+  /* ============================================================
+     TIMELINE SCROLL LOGIC
+  ============================================================ */
+
   useEffect(() => {
     const handleScroll = () => {
       if (!timelineRef.current) return;
 
       const timeline = timelineRef.current;
-      const nodes = timeline.querySelectorAll("[data-timeline-node]");
+
+      const nodes = timeline.querySelectorAll(
+        "[data-timeline-node]"
+      );
 
       /*
-       * The glow stays at the center of the viewport.
+       * Fixed center position of viewport
        */
       const screenCenter = window.innerHeight / 2;
 
@@ -85,32 +111,41 @@ const Experience = () => {
         const rect = node.getBoundingClientRect();
 
         /*
-         * When the timeline circle reaches
-         * the center glow, activate it.
+         * Distance between timeline node
+         * and center spark
          */
         const distance = Math.abs(
           rect.top + rect.height / 2 - screenCenter
         );
 
+        /*
+         * Activate when node reaches center
+         */
         if (distance < 45) {
           active.push(index);
         }
 
         /*
-         * Keep previously passed timeline nodes filled.
+         * Keep passed nodes active
          */
-        if (rect.top + rect.height / 2 < screenCenter) {
+        if (
+          rect.top + rect.height / 2 <
+          screenCenter
+        ) {
           active.push(index);
         }
       });
 
       setActiveItems([...new Set(active)]);
 
+
       /*
-       * Show the fixed spark while the timeline
-       * is visible in the viewport.
+       * Show center spark only while
+       * timeline is visible
        */
-      const timelineRect = timeline.getBoundingClientRect();
+
+      const timelineRect =
+        timeline.getBoundingClientRect();
 
       const timelineVisible =
         timelineRect.top < window.innerHeight &&
@@ -119,28 +154,52 @@ const Experience = () => {
       setSparkActive(timelineVisible);
     };
 
+
     handleScroll();
 
-    window.addEventListener("scroll", handleScroll, {
-      passive: true,
-    });
 
-    window.addEventListener("resize", handleScroll);
+    window.addEventListener(
+      "scroll",
+      handleScroll,
+      {
+        passive: true,
+      }
+    );
+
+    window.addEventListener(
+      "resize",
+      handleScroll
+    );
+
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleScroll);
+      window.removeEventListener(
+        "scroll",
+        handleScroll
+      );
+
+      window.removeEventListener(
+        "resize",
+        handleScroll
+      );
     };
   }, []);
+
 
   return (
     <section
       id="experience"
-      className="relative overflow-hidden py-24 sm:py-28 lg:py-32"
+      className="
+        relative
+        overflow-hidden
+        py-24
+        sm:py-28
+        lg:py-32
+      "
     >
+
       {/* ==================================================
           FIXED CENTER SPARK
-          This does NOT move with the page.
       ================================================== */}
 
       <div
@@ -153,9 +212,10 @@ const Experience = () => {
           hidden
           -translate-x-1/2
           -translate-y-1/2
-          md:block
           transition-all
           duration-500
+          md:block
+
           ${
             sparkActive
               ? "opacity-100"
@@ -163,7 +223,9 @@ const Experience = () => {
           }
         `}
       >
-        {/* Large glow */}
+
+        {/* Large Glow */}
+
         <div
           className="
             absolute
@@ -180,7 +242,9 @@ const Experience = () => {
           "
         />
 
-        {/* Middle glow */}
+
+        {/* Middle Glow */}
+
         <div
           className="
             absolute
@@ -196,7 +260,9 @@ const Experience = () => {
           "
         />
 
+
         {/* Core */}
+
         <div
           className="
             relative
@@ -208,7 +274,9 @@ const Experience = () => {
           "
         />
 
-        {/* Vertical light */}
+
+        {/* Vertical Light */}
+
         <div
           className="
             absolute
@@ -225,7 +293,9 @@ const Experience = () => {
             opacity-80
           "
         />
+
       </div>
+
 
       {/* ==================================================
           SECTION CONTENT
@@ -233,32 +303,87 @@ const Experience = () => {
 
       <div className="container relative z-10 mx-auto px-6">
 
-        {/* ================= HEADER ================= */}
+
+        {/* ==================================================
+            HEADER
+        ================================================== */}
 
         <div className="mx-auto mb-20 max-w-2xl text-center">
 
-          <div className="mb-4 flex items-center justify-center gap-2 animate-fade-in">
-            <BriefcaseBusiness className="h-5 w-5 text-primary" />
 
-            <span className="text-sm font-medium uppercase tracking-[0.25em] text-primary">
-              My Journey
-            </span>
-          </div>
+          {/* Small Heading */}
 
-          <h2 className="font-bold sm:text-4xl md:text-5xl animate-fade-in animation-delay-200">
-            Education{" "}
-            <span className="text-primary glow-text">
-              & Experience
-            </span>
-          </h2>
+          <ScrollReveal>
+            <div className="mb-4 flex items-center justify-center gap-2">
 
-          <p className="mt-5 text-sm leading-7 text-muted-foreground sm:text-base animate-fade-in animation-delay-300">
-            From computer science fundamentals to professional web
-            development, here's how my journey has evolved.
-          </p>
+              <BriefcaseBusiness
+                className="h-5 w-5 text-primary"
+              />
+
+              <span
+                className="
+                  text-sm
+                  font-medium
+                  uppercase
+                  tracking-[0.25em]
+                  text-primary
+                "
+              >
+                My Journey
+              </span>
+
+            </div>
+          </ScrollReveal>
+
+
+          {/* Main Heading */}
+
+          <ScrollReveal delay={100}>
+
+            <h2
+              className="
+                font-bold
+                text-3xl
+                sm:text-4xl
+                md:text-5xl
+              "
+            >
+              Education{" "}
+
+              <span className="text-primary glow-text">
+                & Experience
+              </span>
+
+            </h2>
+
+          </ScrollReveal>
+
+
+          {/* Description */}
+
+          <ScrollReveal delay={200}>
+
+            <p
+              className="
+                mt-5
+                text-sm
+                leading-7
+                text-muted-foreground
+                sm:text-base
+              "
+            >
+              From computer science fundamentals to professional
+              web development, here's how my journey has evolved.
+            </p>
+
+          </ScrollReveal>
+
         </div>
 
-        {/* ================= TIMELINE ================= */}
+
+        {/* ==================================================
+            TIMELINE
+        ================================================== */}
 
         <div
           ref={timelineRef}
@@ -277,10 +402,12 @@ const Experience = () => {
               top-0
               w-px
               bg-border
+
               md:left-1/2
               md:-translate-x-1/2
             "
           />
+
 
           {/* ==================================================
               TIMELINE ITEMS
@@ -306,29 +433,64 @@ const Experience = () => {
             })}
 
           </div>
+
         </div>
 
-        {/* ================= END ================= */}
 
-        <div className="mt-20 flex justify-center">
-          <div className="glass rounded-full px-5 py-2.5">
-            <div className="flex items-center gap-3">
+        {/* ==================================================
+            END STATUS
+        ================================================== */}
 
-              <span className="relative flex h-2.5 w-2.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-50" />
+        <ScrollReveal delay={100}>
 
-                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-primary" />
-              </span>
+          <div className="mt-20 flex justify-center">
 
-              <span className="text-xs text-muted-foreground">
-                Currently growing & building
-              </span>
+            <div className="glass rounded-full px-5 py-2.5">
+
+              <div className="flex items-center gap-3">
+
+                <span className="relative flex h-2.5 w-2.5">
+
+                  <span
+                    className="
+                      absolute
+                      inline-flex
+                      h-full
+                      w-full
+                      animate-ping
+                      rounded-full
+                      bg-primary
+                      opacity-50
+                    "
+                  />
+
+                  <span
+                    className="
+                      relative
+                      inline-flex
+                      h-2.5
+                      w-2.5
+                      rounded-full
+                      bg-primary
+                    "
+                  />
+
+                </span>
+
+                <span className="text-xs text-muted-foreground">
+                  Currently growing & building
+                </span>
+
+              </div>
 
             </div>
+
           </div>
-        </div>
+
+        </ScrollReveal>
 
       </div>
+
     </section>
   );
 };
@@ -344,7 +506,9 @@ const TimelineItem = ({
   index,
   isActive,
 }) => {
+
   const isLeft = index % 2 === 0;
+
 
   return (
     <div
@@ -353,6 +517,7 @@ const TimelineItem = ({
         grid
         min-h-[260px]
         grid-cols-[40px_1fr]
+
         md:grid-cols-2
         md:gap-20
       "
@@ -363,43 +528,79 @@ const TimelineItem = ({
       ================================================== */}
 
       <div className="col-start-2 md:hidden">
-        <ExperienceCard
-          item={item}
-          Icon={Icon}
-          isActive={isActive}
-          align="left"
-        />
-      </div>
 
-      {/* ==================================================
-          DESKTOP LEFT
-      ================================================== */}
+        <ScrollReveal
+          direction="right"
+          delay={100}
+        >
 
-      <div className="hidden md:flex md:justify-end">
-        {isLeft && (
-          <ExperienceCard
-            item={item}
-            Icon={Icon}
-            isActive={isActive}
-            align="right"
-          />
-        )}
-      </div>
-
-      {/* ==================================================
-          DESKTOP RIGHT
-      ================================================== */}
-
-      <div className="hidden md:flex md:justify-start">
-        {!isLeft && (
           <ExperienceCard
             item={item}
             Icon={Icon}
             isActive={isActive}
             align="left"
           />
-        )}
+
+        </ScrollReveal>
+
       </div>
+
+
+      {/* ==================================================
+          DESKTOP LEFT
+      ================================================== */}
+
+      <div className="hidden md:flex md:justify-end">
+
+        {isLeft && (
+
+          <ScrollReveal
+            direction="right"
+            delay={100}
+            className="w-full max-w-[430px]"
+          >
+
+            <ExperienceCard
+              item={item}
+              Icon={Icon}
+              isActive={isActive}
+              align="right"
+            />
+
+          </ScrollReveal>
+
+        )}
+
+      </div>
+
+
+      {/* ==================================================
+          DESKTOP RIGHT
+      ================================================== */}
+
+      <div className="hidden md:flex md:justify-start">
+
+        {!isLeft && (
+
+          <ScrollReveal
+            direction="left"
+            delay={100}
+            className="w-full max-w-[430px]"
+          >
+
+            <ExperienceCard
+              item={item}
+              Icon={Icon}
+              isActive={isActive}
+              align="left"
+            />
+
+          </ScrollReveal>
+
+        )}
+
+      </div>
+
 
       {/* ==================================================
           TIMELINE NODE
@@ -413,9 +614,11 @@ const TimelineItem = ({
           top-8
           z-20
           -translate-x-1/2
+
           md:left-1/2
         "
       >
+
         <div
           className={`
             flex
@@ -427,13 +630,22 @@ const TimelineItem = ({
             border
             transition-all
             duration-500
+
             ${
               isActive
-                ? "border-primary bg-primary shadow-[0_0_30px_rgba(23,174,217,0.6)]"
-                : "border-border bg-background"
+                ? `
+                  border-primary
+                  bg-primary
+                  shadow-[0_0_30px_rgba(23,174,217,0.6)]
+                `
+                : `
+                  border-border
+                  bg-background
+                `
             }
           `}
         >
+
           <div
             className={`
               h-2.5
@@ -441,6 +653,7 @@ const TimelineItem = ({
               rounded-full
               transition-all
               duration-500
+
               ${
                 isActive
                   ? "bg-background"
@@ -448,8 +661,11 @@ const TimelineItem = ({
               }
             `}
           />
+
         </div>
+
       </div>
+
     </div>
   );
 };
@@ -465,29 +681,87 @@ const ExperienceCard = ({
   isActive,
   align,
 }) => {
+
   return (
     <article
       className={`
         group
+        relative
         w-full
         max-w-[430px]
+        overflow-hidden
         rounded-2xl
         glass
         box-shadow
         p-6
         transition-all
         duration-500
+
         ${
           isActive
-            ? "border-primary/40 shadow-[0_0_30px_rgba(23,174,217,0.08)]"
-            : "border-border"
+            ? `
+              border-primary/40
+              shadow-[0_0_30px_rgba(23,174,217,0.08)]
+            `
+            : `
+              border-border
+            `
         }
       `}
     >
 
-      {/* ================= TOP ================= */}
+      {/* ==================================================
+          HOVER TOP BORDER
+      ================================================== */}
 
-      <div className="flex items-start justify-between gap-4">
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute
+          left-0
+          top-0
+          h-px
+          w-0
+          bg-primary
+          transition-all
+          duration-500
+          group-hover:w-full
+        "
+      />
+
+
+      {/* ==================================================
+          BACKGROUND HOVER GLOW
+      ================================================== */}
+
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute
+          -right-16
+          -top-16
+          h-40
+          w-40
+          rounded-full
+          bg-primary/5
+          opacity-0
+          blur-3xl
+          transition-opacity
+          duration-500
+          group-hover:opacity-100
+        "
+      />
+
+
+      {/* ==================================================
+          TOP
+      ================================================== */}
+
+      <div className="relative flex items-start justify-between gap-4">
+
+        {/* Icon */}
 
         <div
           className={`
@@ -500,15 +774,27 @@ const ExperienceCard = ({
             rounded-xl
             transition-all
             duration-500
+
             ${
               isActive
-                ? "bg-primary text-background"
-                : "bg-primary/10 text-primary"
+                ? `
+                  bg-primary
+                  text-background
+                `
+                : `
+                  bg-primary/10
+                  text-primary
+                `
             }
           `}
         >
+
           <Icon className="h-5 w-5" />
+
         </div>
+
+
+        {/* Date */}
 
         <div
           className={`
@@ -517,6 +803,7 @@ const ExperienceCard = ({
             gap-2
             text-xs
             text-muted-foreground
+
             ${
               align === "right"
                 ? "flex-row-reverse"
@@ -524,18 +811,27 @@ const ExperienceCard = ({
             }
           `}
         >
+
           <CalendarDays className="h-3.5 w-3.5 text-primary" />
 
-          <span>{item.date}</span>
+          <span>
+            {item.date}
+          </span>
+
         </div>
 
       </div>
 
-      {/* ================= CONTENT ================= */}
+
+      {/* ==================================================
+          CONTENT
+      ================================================== */}
 
       <div
         className={`
+          relative
           mt-6
+
           ${
             align === "right"
               ? "text-right"
@@ -545,16 +841,30 @@ const ExperienceCard = ({
       >
 
         <p className="text-xs font-medium uppercase tracking-wider text-primary">
+
           {item.type === "work"
             ? "Professional Experience"
             : item.type === "training"
-            ? "Professional Training"
-            : "Education"}
+              ? "Professional Training"
+              : "Education"}
+
         </p>
 
-        <h3 className="mt-2 text-xl font-bold transition-colors group-hover:text-primary sm:text-2xl">
+
+        <h3
+          className="
+            mt-2
+            text-xl
+            font-bold
+            transition-colors
+            duration-300
+            group-hover:text-primary
+            sm:text-2xl
+          "
+        >
           {item.title}
         </h3>
+
 
         <p className="mt-1 text-sm font-medium text-foreground/80">
           {item.organization}
@@ -562,16 +872,21 @@ const ExperienceCard = ({
 
       </div>
 
-      {/* ================= LOCATION ================= */}
+
+      {/* ==================================================
+          LOCATION
+      ================================================== */}
 
       <div
         className={`
+          relative
           mt-4
           flex
           items-center
           gap-2
           text-xs
           text-muted-foreground
+
           ${
             align === "right"
               ? "justify-end"
@@ -579,19 +894,28 @@ const ExperienceCard = ({
           }
         `}
       >
+
         <MapPin className="h-3.5 w-3.5 text-primary" />
 
-        <span>{item.location}</span>
+        <span>
+          {item.location}
+        </span>
+
       </div>
 
-      {/* ================= DESCRIPTION ================= */}
+
+      {/* ==================================================
+          DESCRIPTION
+      ================================================== */}
 
       <p
         className={`
+          relative
           mt-5
           text-sm
           leading-7
           text-muted-foreground
+
           ${
             align === "right"
               ? "text-right"
@@ -602,14 +926,19 @@ const ExperienceCard = ({
         {item.description}
       </p>
 
-      {/* ================= SKILLS ================= */}
+
+      {/* ==================================================
+          SKILLS
+      ================================================== */}
 
       <div
         className={`
+          relative
           mt-5
           flex
           flex-wrap
           gap-2
+
           ${
             align === "right"
               ? "justify-end"
@@ -617,7 +946,9 @@ const ExperienceCard = ({
           }
         `}
       >
+
         {item.skills.map((skill) => (
+
           <span
             key={skill}
             className="
@@ -630,17 +961,21 @@ const ExperienceCard = ({
               text-[11px]
               text-muted-foreground
               transition-all
+              duration-300
               hover:border-primary/40
               hover:text-primary
             "
           >
             {skill}
           </span>
+
         ))}
+
       </div>
 
     </article>
   );
 };
+
 
 export default Experience;
